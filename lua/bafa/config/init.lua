@@ -58,7 +58,7 @@ M.config_defaults = {
     },
     sort = {
       method = Types.BafaSorting.DEFAULT, -- Sorting method
-      focus_alternate_buffer = false, -- If true, cursor defaults to second buffer when opening menu
+      focus_alternate_buffer = true, -- If true, cursor defaults to second buffer when opening menu
     },
     render = {
       custom_format_buffer_line = nil, -- Custom buffer line format function, default is nil

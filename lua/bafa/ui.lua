@@ -29,7 +29,7 @@ local BAFA_SIGN_DELETED = "BafaDeleted"
 
 -- Jump labels state
 local jump_labels_visible = false
-local jump_label_map = {} -- Maps buffer path to label letter (stable mapping)
+local jump_label_map = {}             -- Maps buffer path to label letter (stable mapping)
 local pending_jump_label_action = nil -- "delete" or nil, set when g-prefixed action is pending
 
 ---Calculate window position based on config
@@ -67,15 +67,15 @@ local function calculate_window_position(width, height, max_width, max_height)
 
   -- Calculate vertical position (row)
   if
-    preset == Types.BafaConfigWindowPosition.top_center
-    or preset == Types.BafaConfigWindowPosition.top_left
-    or preset == Types.BafaConfigWindowPosition.top_right
+      preset == Types.BafaConfigWindowPosition.top_center
+      or preset == Types.BafaConfigWindowPosition.top_left
+      or preset == Types.BafaConfigWindowPosition.top_right
   then
     row = 0
   elseif
-    preset == Types.BafaConfigWindowPosition.bottom_center
-    or preset == Types.BafaConfigWindowPosition.bottom_left
-    or preset == Types.BafaConfigWindowPosition.bottom_right
+      preset == Types.BafaConfigWindowPosition.bottom_center
+      or preset == Types.BafaConfigWindowPosition.bottom_left
+      or preset == Types.BafaConfigWindowPosition.bottom_right
   then
     row = max_height - height - 1
   else
@@ -85,15 +85,15 @@ local function calculate_window_position(width, height, max_width, max_height)
 
   -- Calculate horizontal position (col)
   if
-    preset == Types.BafaConfigWindowPosition.top_left
-    or preset == Types.BafaConfigWindowPosition.bottom_left
-    or preset == Types.BafaConfigWindowPosition.center_left
+      preset == Types.BafaConfigWindowPosition.top_left
+      or preset == Types.BafaConfigWindowPosition.bottom_left
+      or preset == Types.BafaConfigWindowPosition.center_left
   then
     col = 0
   elseif
-    preset == Types.BafaConfigWindowPosition.top_right
-    or preset == Types.BafaConfigWindowPosition.bottom_right
-    or preset == Types.BafaConfigWindowPosition.center_right
+      preset == Types.BafaConfigWindowPosition.top_right
+      or preset == Types.BafaConfigWindowPosition.bottom_right
+      or preset == Types.BafaConfigWindowPosition.center_right
   then
     col = max_width - width
   else
@@ -145,11 +145,11 @@ local function init_signs()
 
   -- Get modified sign highlight
   local modified_sign_hl =
-    get_hl_with_fallback(sign_hl_config.modified, { "GitSignsChange", "DiffChange" }, "BafaModifiedSign", "#fabd2f")
+      get_hl_with_fallback(sign_hl_config.modified, { "GitSignsChange", "DiffChange" }, "BafaModifiedSign", "#fabd2f")
 
   -- Get deleted sign highlight
   local deleted_sign_hl =
-    get_hl_with_fallback(sign_hl_config.deleted, { "GitSignsDelete", "DiffDelete" }, "BafaDeletedSign", "#fb4934")
+      get_hl_with_fallback(sign_hl_config.deleted, { "GitSignsDelete", "DiffDelete" }, "BafaDeletedSign", "#fb4934")
 
   -- Define sign for modified buffers
   vim.fn.sign_define(BAFA_SIGN_MODIFIED, {
@@ -197,7 +197,6 @@ end
 
 ---Check if a buffer is modified (has unsaved changes)
 ---@param buffer table The buffer to check
----@return boolean True if buffer is modified
 local function is_buffer_modified(buffer)
   if not buffer or not buffer.number or not vim.api.nvim_buf_is_valid(buffer.number) then return false end
 
@@ -488,8 +487,8 @@ local function add_jump_label(idx, buffer)
   vim.api.nvim_buf_set_extmark(BAFA_BUF_ID, BAFA_NS_ID, idx - 1, 0, {
     virt_text = { { label, pending_jump_label_action ~= "delete" and "BafaJumpLabelSelect" or "BafaJumpLabelDelete" } },
     virt_text_pos = "overlay", -- Overlay at the specified column
-    hl_mode = "combine", -- Combine with background
-    priority = 1000, -- High priority to ensure it's visible
+    hl_mode = "combine",       -- Combine with background
+    priority = 1000,           -- High priority to ensure it's visible
   })
 end
 
@@ -534,11 +533,11 @@ local add_diagnostics_icons = function(idx, buffer)
     vim.api.nvim_buf_set_extmark(BAFA_BUF_ID, BAFA_NS_ID, idx - 1, 0, {
       virt_text = {
         { tostring(diagnostic.count), diagnostic.hl_group },
-        { " ", diagnostic.hl_group },
-        { diagnostic.icon, diagnostic.hl_group },
+        { " ",                        diagnostic.hl_group },
+        { diagnostic.icon,            diagnostic.hl_group },
       },
       virt_text_pos = "eol", -- Position at end of line (after padding)
-      hl_mode = "combine", -- Combine with visual selection instead of replacing it
+      hl_mode = "combine",   -- Combine with visual selection instead of replacing it
     })
     count_diagnostics = count_diagnostics + 1
   end
@@ -618,7 +617,7 @@ local function refresh_ui()
   local max_signs_needed = 0
   local max_display_width = 0
   local line_display_widths = {}
-  local formatted_lines = {} -- Store formatted lines (without end padding and diagnostics)
+  local formatted_lines = {}      -- Store formatted lines (without end padding and diagnostics)
   local buffer_name_contents = {} -- Store custom formatted buffer name contents
 
   for idx, buffer in ipairs(display_buffers) do
@@ -763,10 +762,10 @@ local function refresh_ui()
     base_width = max_display_width
   else
     -- Use calculated width for default format
-    base_width = longest_buffer_name + 6 -- space for icon and padding
+    base_width = longest_buffer_name + 6        -- space for icon and padding
   end
   base_width = base_width + number_column_width -- add number column width if enabled
-  base_width = base_width + sign_column_width -- add sign column width (0, 1, or 2 signs worth of space)
+  base_width = base_width + sign_column_width   -- add sign column width (0, 1, or 2 signs worth of space)
 
   -- Get parent window dimensions based on relative setting
   local max_width = vim.o.columns
@@ -810,6 +809,8 @@ local function create_window()
   local bufnr = vim.api.nvim_create_buf(false, true)
   vim.bo[bufnr].modifiable = false
 
+
+
   local max_width = vim.api.nvim_win_get_width(0)
   local max_height = vim.api.nvim_win_get_height(0)
   local buffer_longest_name_width = BufferUtils.get_width_longest_buffer_name()
@@ -822,7 +823,7 @@ local function create_window()
   local sign_column_width = get_sign_column_width(2) -- Assume max 2 signs for initial sizing
   local diagnostics_width = get_diagnostics_width(buffers)
   local width =
-    math.min(max_width, buffer_longest_name_width + 4 + number_column_width + sign_column_width + diagnostics_width)
+      math.min(max_width, buffer_longest_name_width + 4 + number_column_width + sign_column_width + diagnostics_width)
   local height = math.min(max_height, buffer_lines + 2)
 
   local max_width_editor = vim.o.columns
@@ -843,6 +844,10 @@ local function create_window()
     ---@type BafaConfigStyle
     style = ui_config.style or Types.BafaConfigUiStyle.minimal,
   })
+
+  -- Set black background for this buffer's window
+  vim.api.nvim_set_hl(0, 'BafaCursorLine', { bg = '#1F2738', fg = '#BFBDB6' })
+  vim.wo[BAFA_WIN_ID].winhl = 'CursorLine:BafaCursorLine'
 
   return {
     bufnr = bufnr,
@@ -1210,10 +1215,10 @@ function M.move_buffer_up()
       -- Use a deferred callback to ensure UI is refreshed first
       vim.schedule(function()
         if
-          BAFA_WIN_ID ~= nil
-          and vim.api.nvim_win_is_valid(BAFA_WIN_ID)
-          and BAFA_BUF_ID ~= nil
-          and vim.api.nvim_buf_is_valid(BAFA_BUF_ID)
+            BAFA_WIN_ID ~= nil
+            and vim.api.nvim_win_is_valid(BAFA_WIN_ID)
+            and BAFA_BUF_ID ~= nil
+            and vim.api.nvim_buf_is_valid(BAFA_BUF_ID)
         then
           -- Set visual selection marks (bufnum, lnum, col, off)
           vim.fn.setpos("'<", { BAFA_BUF_ID, new_start_display_idx, 1, 0 })
@@ -1283,10 +1288,10 @@ function M.move_buffer_down()
       -- Use a deferred callback to ensure UI is refreshed first
       vim.schedule(function()
         if
-          BAFA_WIN_ID ~= nil
-          and vim.api.nvim_win_is_valid(BAFA_WIN_ID)
-          and BAFA_BUF_ID ~= nil
-          and vim.api.nvim_buf_is_valid(BAFA_BUF_ID)
+            BAFA_WIN_ID ~= nil
+            and vim.api.nvim_win_is_valid(BAFA_WIN_ID)
+            and BAFA_BUF_ID ~= nil
+            and vim.api.nvim_buf_is_valid(BAFA_BUF_ID)
         then
           -- Set visual selection marks (bufnum, lnum, col, off)
           vim.fn.setpos("'<", { BAFA_BUF_ID, new_start_display_idx, 1, 0 })
