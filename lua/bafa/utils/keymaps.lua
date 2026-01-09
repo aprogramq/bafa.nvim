@@ -76,7 +76,7 @@ function M.defaults()
   -- Commit changes without closing (localleader + w)
   vim.keymap.set(
     "n",
-    Keys.localleader .. "w",
+    "w",
     function() ui.commit_changes_and_refresh() end,
     get_keymap_opts("Commit changes and refresh UI")
   )
